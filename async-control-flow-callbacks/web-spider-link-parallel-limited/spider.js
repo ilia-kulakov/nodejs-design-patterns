@@ -23,7 +23,7 @@ export function spider(url, nesting, cb) {
       }
 
       scheduleDownload(url, filename, nesting, cb);
-      return launchDownload();
+      return process.nextTick(launchDownload);
     }
 
     spiderLinks(url, fileContent, nesting, cb);
@@ -71,7 +71,7 @@ function launchDownload() {
 
       running--;
       spiderLinks(url, requestContent, nesting, cb);
-      launchDownload();
+      process.nextTick(launchDownload);
     });
     running++;
   }
